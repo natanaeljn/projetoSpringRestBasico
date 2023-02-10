@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -73,6 +74,34 @@ public class GreetingsController {
     public ResponseEntity<String>deletar(@RequestParam Long idUser){
     usuarioDao.deleteById(idUser);
     return new ResponseEntity<String>("usuario deletado" , HttpStatus.OK);
+    	
+    }
+    
+    @GetMapping(value = "/buscauserid")
+    @ResponseBody
+    public ResponseEntity<Usuario>buscaUserId(@RequestParam(name = "idUser") Long idUser){
+    Usuario usuarioId =  usuarioDao.findById(idUser).get();
+    return new ResponseEntity<Usuario>(usuarioId , HttpStatus.OK);
+    
+    	
+    }
+    @PutMapping(value = "atualizar")
+    @ResponseBody
+    public ResponseEntity<?>atualizar(@RequestBody Usuario usuario){
+    if(usuario.getId() == null) {
+    	return new ResponseEntity<String>("Id nao foi informado" , HttpStatus.OK);
+    }
+    	
+    Usuario usuarioSalvar =   usuarioDao.save(usuario);
+    return new ResponseEntity<Usuario>(usuarioSalvar , HttpStatus.OK);
+    	
+    }
+    @GetMapping(value = "/buscausernome")
+    @ResponseBody
+    public ResponseEntity<List<Usuario>>buscaUserNome(@RequestParam(name = "nome") String nome){
+    List<Usuario>lista = usuarioDao.buscaPorNome(nome.trim().toUpperCase());
+    return new ResponseEntity<List<Usuario>>(lista , HttpStatus.OK);
+    
     	
     }
     
