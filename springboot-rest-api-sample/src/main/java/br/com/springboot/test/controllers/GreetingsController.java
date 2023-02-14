@@ -29,6 +29,7 @@ import br.com.springboot.test.repository.UsuarioDao;
  * A sample greetings controller to return greeting text
  */
 @RestController
+@RequestMapping("/user")
 public class GreetingsController {
 	
 	@Autowired
